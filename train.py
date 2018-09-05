@@ -31,15 +31,10 @@ device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 print 'Device:', device
 model.to(device)
 
-# for i in range(len(mnist_dataset)):
-#     label, img = mnist_dataset[i]
-#     pred = model(img)
 model.train()
 for epoch in range(n_epoches):
     running_loss = 0
     for i_batch, (label, img) in enumerate(dataloader):
-        label.requires_grad_(False)
-        img.requires_grad_(False)
         label = label.to(device)
         img = img.to(device)
 
@@ -57,6 +52,7 @@ for epoch in range(n_epoches):
             running_loss = 0.0
 
 
+torch.save(model.state_dict(), './trained_model/checkpoint.pth.tar')
 # Test
 model.eval()
 
